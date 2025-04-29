@@ -7,19 +7,19 @@ height = 50;       // Height of the bin
 thickness = 3;     // Wall and bottom thickness
 corner_radius = 5; // Radius for rounded edges
 
-module rounded_bin() {
+module rounded_bin(length, width, height, thickness, radius) {
     intersection()
     {
         difference() {
             // Outer shell with rounded corners
             minkowski() {
-                cube([length - 2 * corner_radius, width - 2 * corner_radius, height], center = true);
+                cube([length - 2 * radius, width - 2 * corner_radius, height], center = true);
                 sphere(corner_radius);
             }
             // Inner shell with rounded corners (to create the hollow bin)
             translate([0, 0, thickness]) {
                 minkowski() {
-                    cube([length - 2 * corner_radius - 2 * thickness, width - 2 * corner_radius - 2 * thickness, height - thickness], center = true);
+                    cube([length - 2 * corner_radius - 2 * thickness, width - 2 * radius - 2 * thickness, height - thickness], center = true);
                     sphere(corner_radius);
                 }
             }
@@ -31,5 +31,4 @@ module rounded_bin() {
 }
 
 // Render the bin
-translate([length/2, width/2, height/2 + corner_radius])
-rounded_bin();
+rounded_bin(length, width, height, thickness, corner_radius);
